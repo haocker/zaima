@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from typing import Optional
 from ..schemas.contact import ContactCreate, ContactUpdate, ContactResponse
 from ..services.contact import (
     get_user_contact,
@@ -29,7 +30,7 @@ def create_or_update_user_contact(
     return ContactResponse.model_validate(contact)
 
 
-@router.get("/", response_model=ContactResponse, summary="获取紧急联系人")
+@router.get("/", response_model=Optional[ContactResponse], summary="获取紧急联系人")
 def get_contact(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -39,10 +40,7 @@ def get_contact(
     """
     contact = get_user_contact(db, current_user)
     if not contact:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="未找到紧急联系人信息"
-        )
+        return None
     return ContactResponse.model_validate(contact)
 
 

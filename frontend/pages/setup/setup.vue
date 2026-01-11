@@ -1,53 +1,66 @@
 <template>
   <div class="setup-container">
-    <h1 class="page-title">紧急联系人设置</h1>
-    
+    <div class="header">
+      <div class="icon">⚙️</div>
+      <h1 class="page-title">紧急联系人设置</h1>
+    </div>
+
     <div class="form-container">
       <div class="form-group">
-        <label for="name" class="form-label">联系人姓名</label>
-        <input 
-          type="text" 
-          id="name" 
-          v-model="contactForm.name" 
-          class="form-input" 
+        <label class="form-label">联系人姓名</label>
+        <input
+          class="form-input"
+          v-model="contactForm.name"
           placeholder="请输入联系人姓名"
-        >
+          confirm-type="done"
+        />
       </div>
-      
+
       <div class="form-group">
-        <label for="email" class="form-label">联系人邮箱</label>
-        <input 
-          type="email" 
-          id="email" 
-          v-model="contactForm.email" 
-          class="form-input" 
+        <label class="form-label">联系人邮箱</label>
+        <input
+          class="form-input"
+          v-model="contactForm.email"
+          type="text"
           placeholder="请输入联系人邮箱"
-        >
+          confirm-type="done"
+        />
       </div>
-      
+
       <div class="form-note">
-        <text>请确保邮箱地址正确，系统将在您连续多日未签到时发送邮件通知</text>
+        <div class="note-icon">💡</div>
+        <div class="note-text">请确保邮箱地址正确，系统将在您连续多日未签到时发送邮件通知</div>
       </div>
-      
-      <button 
+
+      <button
         class="save-button"
         :disabled="!contactForm.name || !contactForm.email"
         @click="saveContact"
       >
-        保存
+        保存联系人
       </button>
     </div>
-    
-    <!-- 当前联系人信息 -->
+
     <div class="current-contact" v-if="currentContact">
-      <h2 class="section-title">当前联系人</h2>
-      <div class="contact-item">
-        <text class="contact-label">姓名：</text>
-        <text class="contact-value">{{ currentContact.name }}</text>
-      </div>
-      <div class="contact-item">
-        <text class="contact-label">邮箱：</text>
-        <text class="contact-value">{{ currentContact.email }}</text>
+      <h2 class="section-title">
+        <span class="icon">📋</span>
+        当前联系人
+      </h2>
+      <div class="contact-card">
+        <div class="contact-item">
+          <text class="contact-icon">👤</text>
+          <div class="contact-info">
+            <text class="contact-label">姓名</text>
+            <text class="contact-value">{{ currentContact.name }}</text>
+          </div>
+        </div>
+        <div class="contact-item">
+          <text class="contact-icon">📧</text>
+          <div class="contact-info">
+            <text class="contact-label">邮箱</text>
+            <text class="contact-value">{{ currentContact.email }}</text>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -75,10 +88,12 @@ export default {
     async getCurrentContact() {
       try {
         const res = await request.get('/contact');
-        this.currentContact = res;
-        // 填充表单
-        this.contactForm.name = res.name;
-        this.contactForm.email = res.email;
+        if (res) {
+          this.currentContact = res;
+          // 填充表单
+          this.contactForm.name = res.name || '';
+          this.contactForm.email = res.email || '';
+        }
       } catch (err) {
         console.error('获取联系人失败:', err);
         // 没有联系人时不报错
@@ -127,86 +142,117 @@ export default {
 .setup-container {
   padding: 20px;
   background-color: #f8f8f8;
-  min-height: calc(100vh - 50px);
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-top: 20px;
+}
+
+.icon {
+  font-size: 64px;
+  margin-bottom: 15px;
 }
 
 .page-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 30px;
   color: #333;
 }
 
 .form-container {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 30px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .form-label {
   display: block;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 600;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .form-input {
   width: 100%;
-  padding: 12px 15px;
+  height: 48px;
+  padding: 0 16px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  background-color: #fafafa;
+  line-height: 48px;
 }
 
 .form-input:focus {
   border-color: #4CD964;
-  box-shadow: 0 0 0 2px rgba(76, 217, 100, 0.2);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(76, 217, 100, 0.1);
 }
 
 .form-note {
+  display: flex;
+  align-items: flex-start;
+  background-color: #f0f9f0;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border-left: 4px solid #4CD964;
+}
+
+.note-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.note-text {
   font-size: 14px;
-  color: #666;
-  margin-bottom: 20px;
-  line-height: 1.5;
+  color: #555;
+  line-height: 1.6;
 }
 
 .save-button {
   width: 100%;
-  padding: 15px;
+  padding: 18px;
   font-size: 18px;
   font-weight: bold;
-  background-color: #4CD964;
+  background: linear-gradient(135deg, #4CD964 0%, #34C759 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(76, 217, 100, 0.3);
 }
 
-.save-button:hover {
-  background-color: #34C759;
+.save-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 6px rgba(76, 217, 100, 0.3);
 }
 
 .save-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+  background: linear-gradient(135deg, #cccccc 0%, #bbbbbb 100%);
+  box-shadow: none;
+  opacity: 0.6;
 }
 
 .current-contact {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .section-title {
@@ -214,20 +260,51 @@ export default {
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.section-title .icon {
+  font-size: 28px;
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .contact-item {
-  margin-bottom: 15px;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 12px;
+}
+
+.contact-icon {
+  font-size: 32px;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.contact-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .contact-label {
-  color: #666;
-  margin-right: 10px;
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 4px;
 }
 
 .contact-value {
+  font-size: 16px;
   color: #333;
-  font-weight: bold;
+  font-weight: 600;
 }
 </style>

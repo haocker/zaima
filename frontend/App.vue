@@ -1,8 +1,3 @@
-<template>
-  <div id="app">
-    <router-view />
-  </div>
-</template>
 
 <script>
 export default {
@@ -54,6 +49,20 @@ export default {
   box-sizing: border-box;
 }
 
+/* 修复 uniapp 页面高度问题 */
+page {
+  height: 100%;
+}
+
+uni-page-wrapper {
+  height: 100%;
+}
+
+uni-page-body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: #f8f8f8;
@@ -77,19 +86,5 @@ button {
   transition: all 0.3s ease;
 }
 
-/* 全局输入框样式 */
-input {
-  border: 1px solid #ddd;
-  outline: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 16px;
-  width: 100%;
-  margin-bottom: 15px;
-}
 
-input:focus {
-  border-color: #4CD964;
-  box-shadow: 0 0 0 2px rgba(76, 217, 100, 0.2);
-}
 </style>

@@ -217,12 +217,12 @@ export default {
 <style scoped>
 .index-container {
   width: 100%;
-  min-height: calc(100vh - 50px);
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 30px 20px 30px;
+  justify-content: center;
+  padding: 0 20px;
   background-color: #f8f8f8;
 }
 
@@ -231,12 +231,14 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-shrink: 0;
+  margin-bottom: 10px;
 }
 
 .time {
-  font-size: 64px;
+  font-size: 48px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #333;
 }
 
@@ -244,7 +246,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .contact-label {
@@ -278,14 +280,14 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .checkin-button {
-  width: 80vw;
-  height: 80vw;
-  max-width: 400px;
-  max-height: 400px;
+  width: 95vw;
+  height: 95vw;
+  max-width: 500px;
+  max-height: 500px;
   border-radius: 50%;
   background-color: #4CD964;
   color: white;
@@ -293,12 +295,23 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
-  font-weight: bold;
+  gap: 10px;
   box-shadow: 0 0 20px rgba(76, 217, 100, 0.5);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(76, 217, 100, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(76, 217, 100, 0.7);
+  }
 }
 
 .checkin-button::before {
@@ -321,9 +334,9 @@ export default {
 }
 
 .heartbeat-svg {
-  width: 120%;
+  width: 130%;
   height: auto;
-  max-width: 450px;
+  max-width: 550px;
 }
 
 .heartbeat-line {
@@ -342,8 +355,8 @@ export default {
 }
 
 .success-svg {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
 }
 
 .success-circle {
@@ -379,11 +392,12 @@ export default {
 .checkin-text {
   font-size: 36px;
   font-weight: bold;
+  margin-top: 10px;
 }
 
 .checkin-status {
-  margin-top: 20px;
-  font-size: 18px;
+  margin-top: 15px;
+  font-size: 16px;
   color: #4CD964;
   font-weight: bold;
 }
@@ -392,7 +406,7 @@ export default {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .days-label {
@@ -402,7 +416,7 @@ export default {
 }
 
 .days-number {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: bold;
   color: #333;
   margin-right: 5px;
@@ -416,7 +430,8 @@ export default {
 .tips {
   width: 100%;
   text-align: center;
-  padding: 0 20px;
+  padding: 0;
+  flex-shrink: 0;
 }
 
 .tips-text {
